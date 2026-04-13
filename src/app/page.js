@@ -1,65 +1,246 @@
-import Image from "next/image";
+"use client";
+
+import { getImage, news } from "../data/news";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [count, setCount] = useState(4);
+  const [search, setSearch] = useState("");
+
+  // 🔍 filter
+  const filteredNews = news.filter((n) =>
+    n.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const data = search ? filteredNews : news;
+
+  const mainNews = data[0];
+  const otherNews = data.slice(1);
+
+  // ✅ reset count when search changes
+  useEffect(() => {
+    setCount(4);
+  }, [search]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div>
+
+      {/* SEARCH BAR */}
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Search news..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            border: "1px solid #ccc",
+            borderRadius: "6px",
+            fontSize: "16px"
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </div>
+
+      <div style={{ display: "flex", gap: "20px" }}>
+
+        {/* LEFT SIDE */}
+        <div style={{ flex: 3 }}>
+
+          {/* FEATURED */}
+          {mainNews && (
+            <div style={{ marginBottom: "30px" }}>
+              <Link href={`/article/${mainNews.id}`} style={{ textDecoration: "none", color: "black" }}>
+                <div style={{ cursor: "pointer" }}>
+                  <img
+                    src={getImage(mainNews.category, mainNews.id)}
+                    style={{
+                      width: "100%",
+                      height: "300px",
+                      objectFit: "cover",
+                      borderRadius: "8px"
+                    }}
+                  />
+                  <h2 style={{ fontSize: "28px", marginTop: "10px" }}>
+                    {mainNews.title}
+                  </h2>
+                  <p style={{ color: "#777" }}>{mainNews.category}</p>
+                </div>
+              </Link>
+            </div>
+          )}
+
+          {/* CARDS */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "20px"
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {otherNews.slice(0, count).map((n) => (
+              <Link
+                key={n.id}
+                href={`/article/${n.id}`}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <div
+                  style={{
+                    border: "1px solid #ddd",
+                    padding: "10px",
+                    borderRadius: "8px",
+                    cursor: "pointer"
+                  }}
+                >
+                  <img
+                    src={getImage(n.category, n.id)}
+                    style={{
+                      width: "100%",
+                      height: "150px",
+                      objectFit: "cover",
+                      borderRadius: "6px"
+                    }}
+                  />
+                  <h3 style={{ margin: "10px 0 5px" }}>{n.title}</h3>
+                  <p style={{ color: "#777" }}>{n.category}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* LOAD MORE */}
+          <div style={{ textAlign: "center", marginTop: "30px" }}>
+            {otherNews.length > count ? (
+              <button
+                onClick={() => setCount((prev) => prev + 2)}
+                style={{
+                  padding: "12px 30px",
+                  background: "linear-gradient(135deg, #007bff, #00c6ff)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "30px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "16px"
+                }}
+              >
+                Load More ↓
+              </button>
+            ) : (
+              <p style={{ color: "#777" }}>No more news</p>
+            )}
+          </div>
+
         </div>
-      </main>
+
+        {/* SIDEBAR */}
+       <div style={{ flex: 1 }}>
+
+  {/* TRENDING */}
+  <div style={{ marginBottom: "25px" }}>
+    <h3 style={{ borderBottom: "2px solid black" }}>
+      Trending 🔥
+    </h3>
+
+    {news.slice(0, 5).map((n) => (
+      <Link
+        key={n.id}
+        href={`/article/${n.id}`}
+        style={{ textDecoration: "none", color: "black" }}
+      >
+        <div style={{ marginBottom: "12px", cursor: "pointer" }}>
+          <p style={{ fontWeight: "bold" }}>{n.title}</p>
+        </div>
+      </Link>
+    ))}
+  </div>
+
+  {/* LATEST NEWS */}
+  <div style={{ marginBottom: "25px" }}>
+    <h3 style={{ borderBottom: "2px solid black" }}>
+      Latest 🕒
+    </h3>
+
+    {news.slice(-5).map((n) => (
+      <Link
+        key={n.id}
+        href={`/article/${n.id}`}
+        style={{ textDecoration: "none", color: "black" }}
+      >
+        <div style={{ marginBottom: "12px", cursor: "pointer" }}>
+          <p>{n.title}</p>
+        </div>
+      </Link>
+    ))}
+  </div>
+
+  {/* CATEGORIES */}
+  <div style={{ marginBottom: "25px" }}>
+    <h3 style={{ borderBottom: "2px solid black" }}>
+      Categories 📂
+    </h3>
+
+    {["Sports", "Business", "World", "Tech"].map((cat) => (
+      <Link
+        key={cat}
+        href={`/${cat.toLowerCase()}`}
+        style={{ textDecoration: "none", color: "black" }}
+      >
+        <div style={{
+          marginBottom: "10px",
+          padding: "5px",
+          borderRadius: "5px",
+          cursor: "pointer"
+        }}
+        onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#f0f0f0"}
+        onMouseOut={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+        >
+          {cat}
+        </div>
+      </Link>
+    ))}
+  </div>
+
+  {/* NEWSLETTER */}
+  <div style={{
+    padding: "15px",
+    border: "1px solid #ddd",
+    borderRadius: "8px"
+  }}>
+    <h3>Subscribe 📧</h3>
+
+    <input
+      type="email"
+      placeholder="Enter email"
+      style={{
+        width: "100%",
+        padding: "8px",
+        marginTop: "10px",
+        borderRadius: "5px",
+        border: "1px solid #ccc"
+      }}
+    />
+
+    <button
+      style={{
+        marginTop: "10px",
+        width: "100%",
+        padding: "8px",
+        backgroundColor: "#007bff",
+        color: "white",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer"
+      }}
+    >
+      Subscribe
+    </button>
+  </div>
+
+</div>
+
+      </div>
     </div>
   );
 }
