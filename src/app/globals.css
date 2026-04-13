@@ -24,3 +24,23 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* SAFE CARD HOVER */
+.card-hover {
+  cursor: pointer;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card-hover:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
+}
+
+/* TEXT HOVER */
+.text-hover {
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.text-hover:hover {
+  color: #007bff;
+}

@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation"
+import "./globals.css";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
 
   return (
-    <html>
+    <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
       <body
         style={{
           fontFamily: "Georgia, serif",
@@ -19,63 +23,56 @@ export default function RootLayout({ children }) {
         {/* HEADER */}
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
             position: "relative",
-            padding: "10px 20px"
+            padding: "10px 20px",
+            display: "flex",
+            alignItems: "center"
           }}
         >
 
           {/* LEFT: e-Paper + Date */}
           <div
             style={{
-              position: "absolute",
-              left: "20px",
               fontSize: "14px",
-              color: "#555"
+              color: "#555",
+              whiteSpace: "nowrap"
             }}
           >
             <strong>e-Paper</strong> |{" "}
             {new Date().toLocaleDateString("en-IN", {
-              weekday: "short",
               day: "numeric",
               month: "short",
               year: "numeric"
             })}
           </div>
 
-          {/* CENTER: Logo + Title */}
-          <Link href="/" style={{ textDecoration: "none" }}>
+          {/* CENTER (desktop) / RIGHT (mobile) */}
+          <Link href="/" style={{ textDecoration: "none", marginLeft: "30%" }}>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "10px",
+                gap: "8px",
                 cursor: "pointer"
               }}
             >
-
               <img
                 src="/logo.png"
-                alt="PDP Logo"
                 style={{
                   width: "50px",
-                  height: "50px",
-                  objectFit: "contain"
+                  height: "50px"
                 }}
               />
 
               <h1
                 style={{
-                  fontSize: "36px",
+                  fontSize: "clamp(20px, 4vw, 36px)",
                   margin: 0,
                   color: "black"
                 }}
               >
                 PDP NEWS
               </h1>
-
             </div>
           </Link>
 
@@ -85,6 +82,7 @@ export default function RootLayout({ children }) {
         <div
           style={{
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "center",
             gap: "10px",
             padding: "6px 0",
@@ -123,66 +121,66 @@ export default function RootLayout({ children }) {
         </div>
 
         {/* PAGE CONTENT */}
-<div style={{ padding: "20px" }}>
-  {children}
-</div>
+        <div style={{ padding: "20px" }}>
+          {children}
+        </div>
 
-{/* FOOTER */}
-<footer
-  style={{
-    marginTop: "40px",
-    padding: "20px",
-    backgroundColor: "#f5f5f5",
-    textAlign: "center",
-    borderTop: "1px solid #ddd"
-  }}
->
+        {/* FOOTER */}
+        <footer
+          style={{
+            marginTop: "40px",
+            padding: "20px",
+            backgroundColor: "#f5f5f5",
+            textAlign: "center",
+            borderTop: "1px solid #ddd"
+          }}
+        >
 
-  <h3 style={{ marginBottom: "10px" }}>
-    PDP NEWS
-  </h3>
+          <h3 style={{ marginBottom: "10px" }}>
+            PDP NEWS
+          </h3>
 
-  <p style={{ color: "#555", fontSize: "14px" }}>
-    Your trusted source for latest news across India and the world.
-  </p>
+          <p style={{ color: "#555", fontSize: "14px" }}>
+            Your trusted source for latest news across India and the world.
+          </p>
 
-  {/* LINKS */}
-  <div style={{
-    marginTop: "15px",
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-    fontSize: "14px"
-  }}>
+          {/* LINKS */}
+          <div style={{
+            marginTop: "15px",
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            fontSize: "14px"
+          }}>
 
-    <Link href="/" style={{ textDecoration: "none", color: "#007bff" }}>
-      Home
-    </Link>
+            <Link href="/" style={{ textDecoration: "none", color: "#007bff" }}>
+              Home
+            </Link>
 
-    <Link href="/sports" style={{ textDecoration: "none", color: "#007bff" }}>
-      Sports
-    </Link>
+            <Link href="/sports" style={{ textDecoration: "none", color: "#007bff" }}>
+              Sports
+            </Link>
 
-    <Link href="/business" style={{ textDecoration: "none", color: "#007bff" }}>
-      Business
-    </Link>
+            <Link href="/business" style={{ textDecoration: "none", color: "#007bff" }}>
+              Business
+            </Link>
 
-    <Link href="/world" style={{ textDecoration: "none", color: "#007bff" }}>
-      World
-    </Link>
+            <Link href="/world" style={{ textDecoration: "none", color: "#007bff" }}>
+              World
+            </Link>
 
-    <Link href="/tech" style={{ textDecoration: "none", color: "#007bff" }}>
-      Tech
-    </Link>
+            <Link href="/tech" style={{ textDecoration: "none", color: "#007bff" }}>
+              Tech
+            </Link>
 
-  </div>
+          </div>
 
-  {/* COPYRIGHT */}
-  <p style={{ marginTop: "15px", fontSize: "12px", color: "#888" }}>
-    © {new Date().getFullYear()} PDP NEWS. All rights reserved.
-  </p>
+          {/* COPYRIGHT */}
+          <p style={{ marginTop: "15px", fontSize: "12px", color: "#888" }}>
+            © {new Date().getFullYear()} PDP NEWS. All rights reserved.
+          </p>
 
-</footer>
+        </footer>
 
       </body>
     </html>

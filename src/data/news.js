@@ -192,6 +192,13 @@ export const news = [
     category: "World",
     image: "/images/trade.jpg",
     content: "Countries agree on new trade partnerships..."
+  },
+  {
+    id: 21,
+    title: "Young Cricketers Shine in World leauge",
+    category: "Sports",
+    image: "/images/cricket6.jpg",
+    content: "New talents made India Proud..."
   }
 
 ];
