@@ -1,60 +1,30 @@
-import Link from "next/link";
-import { getImage } from "../../data/news";
+import NewsLayout from "@/components/NewsLayout";
 import { news } from "../../data/news";
 export default function World() {
 
   const worldNews = news.filter(n => n.category === "World");
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "20px"
-      }}
-    >
-
-
-      {worldNews.map((n) => (
-        <div key={n.id}>
-
-
-          <Link
-            key={n.id}
-            href={`/article/${n.id}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <div
-              className="card-hover"
-              style={{
-                border: "1px solid #ddd",
-                padding: "10px",
-                borderRadius: "8px"
-              }}
-            >
-              <img
-                src={getImage(n.category)}
-                style={{
-                  width: "100%",
-                  height: "150px",
-                  objectFit: "cover",
-                  display: "block"
-                }}
-              />
-
-              {/* TEXT */}
-              <div style={{ padding: "10px" }}>
-                <h3 className="text-hover" style={{ margin: "10px 0 5px" }}>{n.title}</h3>
-
-                <p style={{ color: "#777" }}>
-                  {n.category}
-                </p>
-              </div>
-
-            </div>
-          </Link>
-        </div>
-      ))}
-    </div>
-  );
-}
+       <div>
+   
+         {/* 🔥 HEADER SECTION */}
+         <div style={{ textAlign: "center", margin: "20px 0" }}>
+   
+           <div style={{ height: "2px", background: "#ddd", marginBottom: "10px" }} />
+   
+           <h1 style={{
+             fontSize: "28px",
+             color: "#c40000",
+             margin: "0",
+             fontWeight: "bold"
+           }}>
+             World
+           </h1>
+         </div>
+   
+         {/* LAYOUT */}
+         <NewsLayout news={worldNews} />
+   
+       </div>
+     );
+   }

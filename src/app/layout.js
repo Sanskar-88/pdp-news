@@ -102,7 +102,7 @@ export default function RootLayout({ children }) {
               href={item.path}
               style={{
                 textDecoration: "none",
-                color: pathname === item.path ? "#007bff" : "black",
+                color: pathname === item.path ? "#c40000" : "black",
                 padding: "6px 12px",
                 borderRadius: "6px",
                 transition: "0.3s"

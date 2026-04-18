@@ -42,5 +42,16 @@ body {
 }
 
 .text-hover:hover {
-  color: #007bff;
+  color: #c40000;
+}
+
+
+/* Article Related Card */
+.related-card {
+  transition: all 0.3s ease;
+}
+
+.related-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
 }

@@ -1,62 +1,30 @@
+import NewsLayout from "@/components/NewsLayout";
 import { news } from "../../data/news";
-import { getImage } from "../../data/news";
-import Link from "next/link";
-export default function Sports() {
 
-  // filter only sports news
+export default function Sports() {
   const sportsNews = news.filter((n) => n.category === "Sports");
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "20px"
-      }}
-    >
+    <div>
 
-      {sportsNews.map((n) => (
-        <div key={n.id} style={{ marginBottom: "20px" }}>
+      {/* 🔥 HEADER SECTION */}
+      <div style={{ textAlign: "center", margin: "20px 0" }}>
 
+        <div style={{ height: "2px", background: "#ddd", marginBottom: "10px" }} />
 
-          <Link
-            key={n.id}
-            href={`/article/${n.id}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <div
-              className="card-hover"
-              style={{
-                border: "1px solid #ddd",
-                padding: "10px",
-                borderRadius: "8px"
-              }}
-            >
-              <img
-                src={getImage(n.category)}
-                style={{
-                  width: "100%",
-                  height: "150px",
-                  objectFit: "cover",
-                  display: "block"
-                }}
-              />
+        <h1 style={{
+          fontSize: "28px",
+          color: "#c40000",
+          margin: "0",
+          fontWeight: "bold"
+        }}>
+          Sports
+        </h1>
+      </div>
 
-              {/* TEXT */}
-              <div style={{ padding: "10px" }}>
-               <h3 className="text-hover" style={{ margin: "10px 0 5px" }}>{n.title}</h3>
+      {/* LAYOUT */}
+      <NewsLayout news={sportsNews} />
 
-                <p style={{ color: "#777" }}>
-                  {n.category}
-                </p>
-              </div>
-
-            </div>
-          </Link>
-          <p>{n.category}</p>
-
-        </div>
-      ))}
     </div>
   );
 }
